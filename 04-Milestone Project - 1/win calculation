@@ -1,0 +1,11 @@
+x = range(8)
+win = [{1,2,3},{4,5,6},{7,8,9},{1,4,7},{2,5,8},{3,6,9},{1,5,9},{3,5,7}]
+playerA = [{1,4,3}]
+playerB = [{2,6,9,3}]
+for n in x:
+    if playerA[0] >= win[n]:
+        print('A win!')
+        break
+    elif playerB[0] >= win[n]:
+        print('B win!')
+        break

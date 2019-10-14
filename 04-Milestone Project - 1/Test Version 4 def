@@ -1,0 +1,155 @@
+import random
+
+def choose_first():
+    if random.randint(0,1) == 1:
+        return ('PlayerB first')
+    else:
+        return ('PlayerA first')
+
+def print_board(board):
+    #clear_output
+    print(f'{board[7]}|{board[8]}|{board[9]}');
+    print(f'{board[4]}|{board[5]}|{board[6]}');
+    print(f'{board[1]}|{board[2]}|{board[3]}');
+    
+def choose_marker():
+    markerA = ''
+    markerB = ''
+    
+    while not (markerA == 'X' or markerA == 'O') :
+        markerA = input('PlayerA, please choose your marker(X or O)?').upper()
+    
+    if markerA=='X':
+        markerB ='O'
+        print('PlayerB, your marker is O')
+        return (markerA, markerB)
+        #break
+
+    else:
+        markerA='O'
+        markerB='X'
+        print('PlayerB, your marker is X')
+        return (markerA, markerB)
+        #break
+    
+    
+def play_position(board, marker):
+    step = 0
+    while (step not in range (1,10,1) or not spot_check(board, step)):
+        step = int(input('Please enter your next step(1-9): '))
+    board[step]= marker
+        
+def spot_check(board, position):
+    return board[position]==' '
+
+def check_win(board, marker):
+      return ((board[1]== marker and board[2]==marker and board[3]==marker) or
+        (board[4]== marker and board[5]==marker and board[6]==marker) or
+        (board[7]== marker and board[8]==marker and board[9]==marker) or
+        (board[1]== marker and board[4]==marker and board[7]==marker) or
+        (board[2]== marker and board[5]==marker and board[8]==marker) or
+        (board[3]== marker and board[6]==marker and board[9]==marker) or
+        (board[1]== marker and board[5]==marker and board[9]==marker) or
+        (board[3]== marker and board[5]==marker and board[7]==marker))
+    
+def check_full (board):
+    for n in range(1,10,1):
+        if board[n]==' ':  # if spot_check(board,n)
+            return False
+        break
+    else:
+        return True 
+    
+def ask_another(game,board):
+    if input('New game? Y/N ').upper() == 'Y':
+        game = 1
+        board = [' ']*10
+       
+        return (game,board)
+      
+    else:
+        game = 0
+        board = [' ']*10
+       
+        return (game,board)
+       
+    
+
+print('Welcome Tic TAC TOE!')
+game,board = ask_another(1,[' ']*10)
+while game==1:
+    turn = choose_first()
+    print(turn)
+    markerA,markerB = choose_marker()
+    #player1_marker, player2_marker = player_input()
+
+    if turn == 'PlayerA first':
+
+            while game==1:
+
+                play_position(board, markerA)
+                #print(board)
+                print_board(board)
+                if check_win(board, markerA):
+                    print('A win!!!')
+                    #ask_another(game,board)
+                    game,board = ask_another(game,board)
+                    if game==0:
+                        break
+                if check_full(board):
+                    print('Tie game!!!')
+                    game,board = ask_another(game,board)
+                    if game==0:
+                        break
+
+                play_position(board, markerB)
+                print_board(board)
+                if check_win(board, markerB):
+                    print('B win!!!')
+                    game,board = ask_another(game,board)
+                    if game==0:
+                        break
+                if check_full(board):
+                    print('Tie game!!!')
+                    game,board = ask_another(game,board)
+                    if game==0:
+                        break
+
+           # else:
+               # print('Game Over')
+
+    elif turn == 'PlayerB first':
+
+            while game==1:
+
+                play_position(board, markerB)
+                print_board(board)
+                if check_win(board, markerB):
+                    print('B win!!!')
+                    game,board = ask_another(game,board)
+                    if game==0:
+                        break
+                if check_full(board):
+                    print('Tie game!!!')
+                    game,board = ask_another(game,board)
+                    if game==0:
+                        break
+
+                play_position(board, markerA)
+                print_board(board)
+                if check_win(board, markerA):
+                    print('A win!!!')
+                    game,board = ask_another(game,board)
+                    if game==0:
+                        break
+                if check_full(board):
+                    print('Tie game!!!')
+                    game,board = ask_another(game,board)
+                    if game==0:
+                        break
+
+           # else:
+               # print('Game Over')
+else:
+    print('Game Over')
+    
